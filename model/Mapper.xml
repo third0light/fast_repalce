@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.[<m>].dao.[<A>]Mapper">
+	<resultMap type="[<A>]" id="[<A>]Map">
+		<id property="[<id>]" column="[<id>]"/>
+		<result property="rowNum" column="rowNum"/>
+		<result property="[<n>]" column="[<n>]"/>
+		<result property="[<f>]" column="[<f>]"/>
+	
+	</resultMap>
+	
+	<select id="[<A>]Sel" parameterType="Map" resultMap="[<A>]Map">
+		select top ${PageSize} * from (select *,ROW_NUMBER()  over(order by [<id>] desc) rowNum from [<A>]
+		<where>
+			[<f>] = 0
+			<if test="[<A>].[<like>] !=null and [<A>].[<like>] !=''">and [<like>] like '%'+#{[<A>].[<like>]}+'%' </if>
+		</where>
+		) a where rowNum>#{PageStart}
+	</select>
+	
+	<select id="[<A>]Info" parameterType="[<A>]" resultType="[<A>]">
+		select * from [<A>]
+		<where>
+			[<f>] = 0 and [<id>]=#{[<id>]}
+		</where>
+	</select>
+	
+	<select id="[<A>]Size" parameterType="[<A>]" resultMap="[<A>]Map">
+		select count(*) from [<A>]
+		<where>
+			[<f>] = 0
+			<if test="[<like>] !=null and [<like>] !=''">and [<like>] like '%'+#{[<like>]}+'%' </if>
+		</where>
+	</select>
+	
+	<update id="[<A>]Del" parameterType="[<A>]">
+		update [<A>] set [<f>]=9 where [<id>]=#{[<id>]}
+	</update>
+	
+	<insert id="[<A>]Add" parameterType="[<A>]">
+		insert into [<A>]([<many(n, ', ')>], [<f>]) 
+		values(#{[<many(n, '},#{')>]},0)
+	</insert>
+	
+	<update id="[<A>]Mod" parameterType="[<A>]">
+		update [<A>] 
+		<set>
+			<if test="[<n>] != null">[<n>]=#{[<n>]},</if>
+		</set>  where [<id>]=#{[<id>]} and [<f>] = 0
+	</update>
+	
+</mapper>
