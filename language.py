@@ -93,7 +93,7 @@ line6
 	dictionary['get_list_num'] = get_list_num
 	print make_strings_run(string.split('\n'), 'print ')
 	exec make_strings_run(string.split('\n'), 'print ') in dictionary
-	print 'ok'
+	print('ok')
 
 
 

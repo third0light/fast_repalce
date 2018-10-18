@@ -3,6 +3,8 @@ from language import *
 
 class Data:
 	def __init__(self, string = '', c_string = '-'):
+		self.string = string
+		self.c_string = c_string
 		if string.find('(') != -1 and string.find(')') != -1:
 			self.name = string[:string.find('(')]
 			self.c = c_string[:c_string.find('(')]
@@ -15,6 +17,9 @@ class Data:
 			self.n = False
 	def __str__(self):
 		return self.name
+
+	# def fortest(self):
+	# 	return '[' + self.name + ',' + self.c + (','.join([nn.fortest() for nn in self.n])if self.n != False else '') + ']'
 
 # 通过字符串数组写文件
 def write(file, strings, type = 'w'):
@@ -47,11 +52,11 @@ def get_biggercase(input):
 # 设置一个键值对（同时设置大小写）
 def set_one_dict(dictionary, key, input):
 	if type(input) == type(Data()):
-		dictionary[key] = Data(get_lowercase(str(input)), input.c)
-		dictionary[key.title()] = Data(get_biggercase(str(input)), input.c)
+		dictionary[key] = Data(get_lowercase(input.string), input.c_string)
+		dictionary[key.title()] = Data(get_biggercase(input.string), input.c_string)
 	elif type(input) == list:
-		dictionary[key] = [Data(get_lowercase(str(inp)), inp.c) for inp in input]
-		dictionary[key.title()] = [Data(get_biggercase(str(inp)), inp.c) for inp in input]
+		dictionary[key] = [Data(get_lowercase(_input.string), _input.c_string) for _input in input]
+		dictionary[key.title()] = [Data(get_biggercase(_input.string), _input.c_string) for _input in input]
 	return dictionary
 
 # 获得一个替换字典
@@ -114,25 +119,26 @@ def make_all():
 	input = ''
 	for i in range(3):
 		input += raw_input() + '\n'
-	
-
 	dictionary = get_dict(input)
-
 	for f in file_name('model'):
 		write('output/' + str(dictionary['A']) + f, replace(read('model/' + f), dictionary))
 
 if __name__ == '__main__':
 	make_all()
 
-
 '''
-Name ListName Id OneOne TwoTwo ThreeThree Sex(0,1) Flag
-- 表名 ID 属性一 属性二 属性三 性别(男,女) -
-like(1,2,3)
+wtz WTZuserList ID realname company industry job mobilephone email Createtime Flag
+- 用户 ID 姓名 公司 行业 职务 手机 邮箱 创建时间 -
+like(1,2,3,4,5)
 
 
+wtz WTZoperator id username realname userpwd usertype(0201,0202) createtime createuser flag
+- 管理 ID 用户名 真实姓名 密码 用户类型(系统管理员,浏览用户) 创建时间 创建人 -
+like(0,1,3)
 
-
+ok OKoooo id name pwd kind(0101,0102,0103) flag
+- 欧克欸 ID 名字 密码 用户类型(人,猴,猪) -
+like(0,2)
 
 
 
